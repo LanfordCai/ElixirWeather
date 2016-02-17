@@ -1,7 +1,7 @@
 defmodule Weather.WeatherFetcher do
   @user_agent [ {"User-agent", "Elixir cailinfeng@126.com"} ]
 
-  def fetch(city) do
+  def fetch_weather(city) do
     city_id(city)
     |> weather_url
     |> HTTPoison.get
@@ -9,13 +9,12 @@ defmodule Weather.WeatherFetcher do
   end
 
   defp city_id(city) do
-    import Weather.DataInitializer, only: [process: 0]
-    process
-    |> Map.get(city)
+    import Weather.CityIDFetcher, only: [ fetch_city_id: 1 ]
+    fetch_city_id(city)
   end
 
   defp weather_url(city_id) do
-    "http://www.weather.com.cn/adat/cityinfo/#{city_id}.html"
+    "https://api.heweather.com/x3/weather?cityid=#{city_id}&key=e7c5a4cb418443969bd8724a24def5ee"
   end
 
   defp handle_response({ :ok, %{status_code: 200, body: body}}) do

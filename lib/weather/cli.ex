@@ -34,16 +34,15 @@ defmodule Weather.CLI do
   end
 
   def process(city) do
-    Weather.WeatherFetcher.fetch(city)
+    Weather.WeatherFetcher.fetch_weather(city)
     |> decode_response
   end
 
   defp decode_response({:ok, body}) do
     weather_info = body
-                   |> Map.get("weatherinfo")
-    IO.puts("最高气温 #{Map.get(weather_info, "temp1")}")
-    IO.puts("最低气温 #{Map.get(weather_info, "temp2")}")
-    IO.puts("天气情况 #{Map.get(weather_info, "weather")}")
+                   |> Map.get("HeWeather data service 3.0")
+    [info | _] = weather_info
+    Weather.TableFormatter.print_info(info)
   end
 
   defp decode_response({:error, error}) do
