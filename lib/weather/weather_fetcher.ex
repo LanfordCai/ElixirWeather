@@ -4,7 +4,6 @@ defmodule Weather.WeatherFetcher do
   Fetches the weather data with the heweather webservice
   """
 
-  @user_agent [ {"User-agent", "Elixir cailinfeng@126.com"} ]
   @heweather_url Application.get_env(:weather, :heweather_url)
 
   @doc """
